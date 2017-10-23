@@ -863,6 +863,7 @@ class Artist
 
       current_position++
 
+    specs = specs.sort()
     for spec, i in specs
       saved_duration = @current_duration
       @setDuration(durations[i].time, durations[i].dot) if durations[i]?
