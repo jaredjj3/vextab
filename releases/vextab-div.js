@@ -1,5 +1,5 @@
 /**
- * VexTab 2.0.15 built on 2017-12-15.
+ * VexTab 2.0.16 built on 2017-12-16.
  * Copyright (c) 2010 Mohit Muthanna Cheppudira <mohit@muthanna.com>
  *
  * http://www.vexflow.com  http://github.com/0xfe/vextab
@@ -52520,13 +52520,60 @@ return /******/ (function(modules) { // webpackBootstrap
 ;
 
 },{}],8:[function(require,module,exports){
-var Artist, Vex, _,
+var Artist, PRECEDENCE_BY_NOTE, Vex, _, sortSpecs,
   slice = [].slice,
   indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 Vex = require('vexflow');
 
 _ = require('lodash');
+
+PRECEDENCE_BY_NOTE = {
+  "ab": 0,
+  "a": 1,
+  "a#": 2,
+  "bb": 3,
+  "b": 4,
+  "c": 5,
+  "c#": 6,
+  "db": 7,
+  "d": 8,
+  "d#": 9,
+  "eb": 10,
+  "e": 11,
+  "f": 12,
+  "f#": 13,
+  "gb": 14,
+  "g": 15,
+  "g#": 16
+};
+
+sortSpecs = function(specs) {
+  return specs.sort(function(a, b) {
+    var arrA, arrB, noteA, noteB, octaveA, octaveB, precA, precB;
+    arrA = a.split("/");
+    arrB = b.split("/");
+    octaveA = parseInt(arrA[1], 10);
+    octaveB = parseInt(arrB[1], 10);
+    if (octaveA < octaveB) {
+      return -1;
+    }
+    if (octaveA > octaveB) {
+      return 1;
+    }
+    noteA = arrA[0].toLowerCase();
+    noteB = arrB[0].toLowerCase();
+    precA = PRECEDENCE_BY_NOTE[noteA];
+    precB = PRECEDENCE_BY_NOTE[noteB];
+    if (precA < precB) {
+      return -1;
+    }
+    if (precA > precB) {
+      return 1;
+    }
+    return 0;
+  });
+};
 
 Artist = (function() {
   var L, formatAndRender, getFingering, getScoreArticulationParts, getStrokeParts, makeBend, makeDuration, parseBool;
@@ -52918,18 +52965,7 @@ Artist = (function() {
     };
     _.extend(params, note_params);
     stave_notes = _.last(this.staves).note_notes;
-    spec = params.spec.sort(function(a, b) {
-      var arev, brev;
-      arev = a.split("/").reverse().join("");
-      brev = b.split("/").reverse().join("");
-      if (arev < brev) {
-        return -1;
-      } else if (arev > brev) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
+    spec = sortSpec(params.spec);
     stave_note = new Vex.Flow.StaveNote({
       keys: spec,
       duration: this.current_duration + (params.is_rest ? "r" : ""),
@@ -53701,18 +53737,7 @@ Artist = (function() {
       current_position++;
     }
     specs = specs.map(function(spec) {
-      return spec.sort(function(a, b) {
-        var arev, brev;
-        arev = a.split("/").reverse().join("");
-        brev = b.split("/").reverse().join("");
-        if (arev < brev) {
-          return -1;
-        } else if (arev > brev) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      return sortSpec(spec);
     });
     for (i = l = 0, len1 = specs.length; l < len1; i = ++l) {
       spec = specs[i];
