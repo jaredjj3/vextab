@@ -1,5 +1,5 @@
 /**
- * VexTab 2.0.16 built on 2017-12-16.
+ * VexTab 2.0.18 built on 2017-12-16.
  * Copyright (c) 2010 Mohit Muthanna Cheppudira <mohit@muthanna.com>
  *
  * http://www.vexflow.com  http://github.com/0xfe/vextab
@@ -52965,7 +52965,7 @@ Artist = (function() {
     };
     _.extend(params, note_params);
     stave_notes = _.last(this.staves).note_notes;
-    spec = sortSpec(params.spec);
+    spec = sortSpecs(params.spec);
     stave_note = new Vex.Flow.StaveNote({
       keys: spec,
       duration: this.current_duration + (params.is_rest ? "r" : ""),
@@ -53737,7 +53737,7 @@ Artist = (function() {
       current_position++;
     }
     specs = specs.map(function(spec) {
-      return sortSpec(spec);
+      return sortSpecs(spec);
     });
     for (i = l = 0, len1 = specs.length; l < len1; i = ++l) {
       spec = specs[i];
