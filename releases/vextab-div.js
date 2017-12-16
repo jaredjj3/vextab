@@ -1,5 +1,5 @@
 /**
- * VexTab 2.0.19 built on 2017-12-16.
+ * VexTab 2.0.20 built on 2017-12-16.
  * Copyright (c) 2010 Mohit Muthanna Cheppudira <mohit@muthanna.com>
  *
  * http://www.vexflow.com  http://github.com/0xfe/vextab
@@ -52549,29 +52549,14 @@ PRECEDENCE_BY_NOTE = {
 };
 
 sortSpecs = function(specs) {
-  return specs.sort(function(a, b) {
-    var arrA, arrB, noteA, noteB, octaveA, octaveB, precA, precB;
-    arrA = a.split("/");
-    arrB = b.split("/");
-    octaveA = parseInt(arrA[1], 10);
-    octaveB = parseInt(arrB[1], 10);
-    if (octaveA > octaveB) {
-      return -1;
+  return _.sortBy(specs, function(spec) {
+    var props;
+    props = Vex.Flow.keyProperties(spec);
+    if (props) {
+      return props.line;
+    } else {
+      return 3;
     }
-    if (octaveA < octaveB) {
-      return 1;
-    }
-    noteA = arrA[0].toLowerCase();
-    noteB = arrB[0].toLowerCase();
-    precA = PRECEDENCE_BY_NOTE[noteA];
-    precB = PRECEDENCE_BY_NOTE[noteB];
-    if (precA < precB) {
-      return -1;
-    }
-    if (precA > precB) {
-      return 1;
-    }
-    return 0;
   });
 };
 
