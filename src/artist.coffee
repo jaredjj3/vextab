@@ -361,7 +361,7 @@ class Artist
     _.extend(params, note_params)
     stave_notes = _.last(@staves).note_notes
 
-    spec = sortSpec params.spec
+    spec = sortSpecs params.spec
     stave_note = new Vex.Flow.StaveNote({
       keys: spec
       duration: @current_duration + (if params.is_rest then "r" else "")
@@ -906,7 +906,7 @@ class Artist
 
       current_position++
 
-    specs = specs.map (spec) -> sortSpec(spec)
+    specs = specs.map (spec) -> sortSpecs(spec)
 
     for spec, i in specs
       saved_duration = @current_duration
