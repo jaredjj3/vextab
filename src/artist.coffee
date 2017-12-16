@@ -1,12 +1,53 @@
 # VexTab Artist
-# Copyright 2012 Mohit Cheppudira <mohit@muthanna.com>
 #
 # This class is responsible for rendering the elements
 # parsed by Vex.Flow.VexTab.
+# Copyright 2012 Mohit Cheppudira <mohit@muthanna.com>
 
 
 Vex = require 'vexflow'
 _ = require 'lodash'
+
+PRECEDENCE_BY_NOTE =
+  "ab" : 0
+  "a"  : 1,
+  "a#" : 2,
+  "bb" : 3,
+  "b"  : 4,
+  "c"  : 5,
+  "c#" : 6,
+  "db" : 7,
+  "d"  : 8,
+  "d#" : 9,
+  "eb" : 10,
+  "e"  : 11,
+  "f"  : 12,
+  "f#" : 13,
+  "gb" : 14,
+  "g"  : 15,
+  "g#" : 16
+
+sortSpecs = (specs) ->
+  specs.sort (a, b) ->
+    arrA = a.split("/")
+    arrB = b.split("/")
+
+    octaveA = parseInt(arrA[1], 10)
+    octaveB = parseInt(arrB[1], 10)
+
+    return -1 if octaveA < octaveB
+    return 1  if octaveA > octaveB
+
+    # If the octaves are equal...
+    noteA = arrA[0].toLowerCase()
+    noteB = arrB[0].toLowerCase()
+    precA = PRECEDENCE_BY_NOTE[noteA]
+    precB = PRECEDENCE_BY_NOTE[noteB]
+
+    return -1 if precA < precB
+    return 1  if precA > precB
+    0
+    
 
 class Artist
   @DEBUG = false
@@ -320,11 +361,7 @@ class Artist
     _.extend(params, note_params)
     stave_notes = _.last(@staves).note_notes
 
-    spec = params.spec.sort (a, b) ->
-      arev = a.split("/").reverse().join("")
-      brev = b.split("/").reverse().join("")
-      if arev < brev then -1 else if arev > brev then 1 else 0
-
+    spec = sortSpec params.spec
     stave_note = new Vex.Flow.StaveNote({
       keys: spec
       duration: @current_duration + (if params.is_rest then "r" else "")
@@ -869,13 +906,7 @@ class Artist
 
       current_position++
 
-    specs = specs.map((spec) ->
-      spec.sort((a, b) ->
-        arev = a.split("/").reverse().join("")
-        brev = b.split("/").reverse().join("")
-        if arev < brev then -1 else if arev > brev then 1 else 0
-      )
-    )
+    specs = specs.map (spec) -> sortSpec(spec)
 
     for spec, i in specs
       saved_duration = @current_duration
