@@ -1,5 +1,5 @@
 /**
- * VexTab 2.0.18 built on 2017-12-16.
+ * VexTab 2.0.19 built on 2017-12-16.
  * Copyright (c) 2010 Mohit Muthanna Cheppudira <mohit@muthanna.com>
  *
  * http://www.vexflow.com  http://github.com/0xfe/vextab
@@ -52555,10 +52555,10 @@ sortSpecs = function(specs) {
     arrB = b.split("/");
     octaveA = parseInt(arrA[1], 10);
     octaveB = parseInt(arrB[1], 10);
-    if (octaveA < octaveB) {
+    if (octaveA > octaveB) {
       return -1;
     }
-    if (octaveA > octaveB) {
+    if (octaveA < octaveB) {
       return 1;
     }
     noteA = arrA[0].toLowerCase();
