@@ -28,26 +28,9 @@ PRECEDENCE_BY_NOTE =
   "g#" : 16
 
 sortSpecs = (specs) ->
-  specs.sort (a, b) ->
-    arrA = a.split("/")
-    arrB = b.split("/")
-
-    octaveA = parseInt(arrA[1], 10)
-    octaveB = parseInt(arrB[1], 10)
-
-    return -1 if octaveA > octaveB
-    return 1  if octaveA < octaveB
-
-    # If the octaves are equal...
-    noteA = arrA[0].toLowerCase()
-    noteB = arrB[0].toLowerCase()
-    precA = PRECEDENCE_BY_NOTE[noteA]
-    precB = PRECEDENCE_BY_NOTE[noteB]
-
-    return -1 if precA < precB
-    return 1  if precA > precB
-    0
-    
+  _.sortBy specs, (spec) ->
+    props = Vex.Flow.keyProperties(spec)
+    if props then props.line else 3 # random line number
 
 class Artist
   @DEBUG = false
