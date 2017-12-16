@@ -35,8 +35,8 @@ sortSpecs = (specs) ->
     octaveA = parseInt(arrA[1], 10)
     octaveB = parseInt(arrB[1], 10)
 
-    return -1 if octaveA < octaveB
-    return 1  if octaveA > octaveB
+    return -1 if octaveA > octaveB
+    return 1  if octaveA < octaveB
 
     # If the octaves are equal...
     noteA = arrA[0].toLowerCase()
