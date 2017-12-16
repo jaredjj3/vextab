@@ -319,8 +319,14 @@ class Artist
 
     _.extend(params, note_params)
     stave_notes = _.last(@staves).note_notes
+
+    spec = params.spec.sort (a, b) ->
+      arev = a.split("/").reverse().join("")
+      brev = b.split("/").reverse().join("")
+      if arev < brev then -1 else if arev > brev then 1 else 0
+
     stave_note = new Vex.Flow.StaveNote({
-      keys: params.spec.sort()
+      keys: spec
       duration: @current_duration + (if params.is_rest then "r" else "")
       clef: if params.is_rest then "treble" else @current_clef
       auto_stem: if params.is_rest then false else true
