@@ -1,5 +1,5 @@
 /**
- * VexTab 2.0.14 built on 2017-12-15.
+ * VexTab 2.0.15 built on 2017-12-15.
  * Copyright (c) 2010 Mohit Muthanna Cheppudira <mohit@muthanna.com>
  *
  * http://www.vexflow.com  http://github.com/0xfe/vextab
@@ -52911,15 +52911,27 @@ Artist = (function() {
   };
 
   Artist.prototype.addStaveNote = function(note_params) {
-    var acc, index, j, len, new_accidental, params, parts, ref, stave_note, stave_notes;
+    var acc, index, j, len, new_accidental, params, parts, ref, spec, stave_note, stave_notes;
     params = {
       is_rest: false,
       play_note: null
     };
     _.extend(params, note_params);
     stave_notes = _.last(this.staves).note_notes;
+    spec = params.spec.sort(function(a, b) {
+      var arev, brev;
+      arev = a.split("/").reverse().join("");
+      brev = b.split("/").reverse().join("");
+      if (arev < brev) {
+        return -1;
+      } else if (arev > brev) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
     stave_note = new Vex.Flow.StaveNote({
-      keys: params.spec.sort(),
+      keys: spec,
       duration: this.current_duration + (params.is_rest ? "r" : ""),
       clef: params.is_rest ? "treble" : this.current_clef,
       auto_stem: params.is_rest ? false : true
