@@ -1,5 +1,5 @@
 /**
- * VexTab 2.0.13 built on 2017-10-23.
+ * VexTab 2.0.15 built on 2017-12-15.
  * Copyright (c) 2010 Mohit Muthanna Cheppudira <mohit@muthanna.com>
  *
  * http://www.vexflow.com  http://github.com/0xfe/vextab
@@ -53688,7 +53688,20 @@ Artist = (function() {
       }
       current_position++;
     }
-    specs = specs.sort();
+    specs = specs.map(function(spec) {
+      return spec.sort(function(a, b) {
+        var arev, brev;
+        arev = a.split("/").reverse().join("");
+        brev = b.split("/").reverse().join("");
+        if (arev < brev) {
+          return -1;
+        } else if (arev > brev) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    });
     for (i = l = 0, len1 = specs.length; l < len1; i = ++l) {
       spec = specs[i];
       saved_duration = this.current_duration;
