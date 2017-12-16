@@ -863,7 +863,14 @@ class Artist
 
       current_position++
 
-    specs = specs.sort()
+    specs = specs.map((spec) ->
+      spec.sort((a, b) ->
+        arev = a.split("/").reverse().join("")
+        brev = b.split("/").reverse().join("")
+        if arev < brev then -1 else if arev > brev then 1 else 0
+      )
+    )
+
     for spec, i in specs
       saved_duration = @current_duration
       @setDuration(durations[i].time, durations[i].dot) if durations[i]?
