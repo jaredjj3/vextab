@@ -125,7 +125,8 @@ stave
         notes: $3.notes,
         text: $3.text,
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }
     }
   | voice maybe_options
@@ -133,7 +134,8 @@ stave
         element: $1,
         options: $2,
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }
     }
   | OPTIONS options {
@@ -141,7 +143,8 @@ stave
         element: "options",
         params: $2,
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }
     }
   ;
@@ -186,7 +189,8 @@ options
         key: $1,
         value: $3,
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }]
     }
   | options WORD '=' WORD
@@ -194,16 +198,30 @@ options
         key: $2,
         value: $4,
         _l: @2.first_line,
-        _c: @2.first_column
-        }])
+        _c0: @2.first_column,
+        _c1: @2.last_column
+        }]
+      )
     }
   ;
 
 text
   : STR
-    { $$ = [{text: $1, _l: @1.first_line, _c: @1.first_column}] }
+    { $$ = [{
+      text: $1,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }] 
+    }
   | text ',' STR
-    { $$ = [].concat($1, {text: $3, _l: @3.first_line, _c: @3.first_column}) }
+    { $$ = [].concat($1, {
+      text: $3,
+      _l: @3.first_line,
+      _c0: @3.first_column,
+      _c1: @3.last_column
+      })
+    }
   ;
 
 notes
@@ -225,21 +243,24 @@ lingo
         command: "bar",
         type: $1,
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
         }]
     }
   | '['
     { $$ = [{
         command: "open_beam",
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }]
     }
   | ']'
     { $$ = [{
         command: "close_beam",
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }]
     }
   | tuplets
@@ -247,7 +268,8 @@ lingo
         command: "tuplet",
         params: $1,
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }]
     }
   | annotations
@@ -255,7 +277,8 @@ lingo
         command: "annotations",
         params: $1,
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }]
     }
   | command
@@ -263,14 +286,18 @@ lingo
         command: "command",
         params: $1,
         _l: @1.first_line,
-        _c: @1.first_column
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }]
     }
   | rest
     {
     $$ = [{
         command: "rest",
-        params: $1
+        params: $1,
+        _l: @1.first_line,
+        _c0: @1.first_column,
+        _c1: @1.last_column
       }]
     }
   ;
@@ -302,9 +329,24 @@ chord_line
 
 chord
   : '(' chord_line ')' maybe_decorator
-    { $$ = [{chord: $2, decorator: $4}] }
+    { $$ = [{
+      chord: $2,
+      decorator: $4,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }]
+    }
   | articulation '(' chord_line ')' maybe_decorator
-    { $$ = [{chord: $3, articulation: $1, decorator: $5}] }
+    { $$ = [{
+      chord: $3,
+      articulation: $1,
+      decorator: $5,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }] 
+    }
   ;
 
 frets
@@ -312,13 +354,28 @@ frets
     { $$ = [{
         fret: $1,
         _l: @1.first_line,
-        _c: @1.first_column}]
+        _c0: @1.first_column,
+        _c1: @1.last_column
+        }]
     }
   | abc
-    { $$ = [{abc: $1, _l: @1.first_line, _c: @1.first_column}]}
+    { $$ = [{
+      abc: $1,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }]
+    }
   | abc NUMBER '_' NUMBER
-    { $$ = [{abc: $1, octave: $2,
-             fret: $4, _l: @1.first_line, _c: @1.first_column}]}
+    { $$ = [{
+      abc: $1,
+      octave: $2,
+      fret: $4,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }]
+    }
   | articulation timed_fret
     { $$ = [_.extend($2, {articulation: $1})] }
   | frets maybe_decorator articulation timed_fret
@@ -333,24 +390,74 @@ frets
 timed_fret
   : ':' time_values maybe_dot ':' NUMBER
     { $$ = {
-      time: $2, dot: $3, fret: $5,
-      _l: @1.first_line, _c: @1.first_column}}
+      time: $2,
+      dot: $3,
+      fret: $5,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }
+    }
   | NUMBER
-    { $$ = {fret: $1, _l: @1.first_line, _c: @1.first_column} }
+    { $$ = {
+      fret: $1,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      } 
+    }
   | ':' time_values maybe_dot ':' abc
-    { $$ = {time: $2, dot: $3, abc: $5}}
+    { $$ = {
+      time: $2, 
+      dot: $3,
+      abc: $5,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }
+    }
   | ':' time_values maybe_dot ':' abc NUMBER '_' NUMBER
-    { $$ = {time: $2, dot: $3, abc: $5, octave: $6, fret: $8}}
+    { $$ = {
+      time: $2,
+      dot: $3,
+      abc: $5,
+      octave: $6,
+      fret: $8,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }
+    }
   | abc
-    { $$ = {abc: $1, _l: @1.first_line, _c: @1.first_column} }
+    { $$ = {
+      abc: $1,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      } 
+    }
   | abc NUMBER '_' NUMBER
-    { $$ = {abc: $1, octave: $2,
-            fret: $4, _l: @1.first_line, _c: @1.first_column} }
+    { $$ = {
+      abc: $1,
+      octave: $2,
+      fret: $4,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }
+    }
   ;
 
 time
   : ':' time_values maybe_dot
-    { $$ = {time: $2, dot: $3} }
+    { $$ = {
+      time: $2,
+      dot: $3,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }
+    }
   ;
 
 time_values
@@ -398,8 +505,21 @@ maybe_decorator
   ;
 
 tuplets
-  : '^' NUMBER '^'            { $$ = {tuplet: $2} }
-  | '^' NUMBER ',' NUMBER '^' { $$ = {tuplet: $2, notes: $4} }
+  : '^' NUMBER '^' { $$ = {
+      tuplet: $2,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }
+    }
+  | '^' NUMBER ',' NUMBER '^' { $$ = {
+      tuplet: $2,
+      notes: $4,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      } 
+    }
   ;
 
 annotations
@@ -425,7 +545,15 @@ rest
 
 abc
   : ABC abc_accidental accidental_type
-    { $$ = {key: $1, accidental: $2, accidental_type: $3} }
+    { $$ = {
+      key: $1,
+      accidental: $2,
+      accidental_type: $3,
+      _l: @1.first_line,
+      _c0: @1.first_column,
+      _c1: @1.last_column
+      }
+    }
   ;
 
 abc_accidental
