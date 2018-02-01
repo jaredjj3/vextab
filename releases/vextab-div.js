@@ -1,5 +1,5 @@
 /**
- * VexTab 2.0.20 built on 2017-12-16.
+ * VexTab 2.0.21 built on 2018-01-31.
  * Copyright (c) 2010 Mohit Muthanna Cheppudira <mohit@muthanna.com>
  *
  * http://www.vexflow.com  http://github.com/0xfe/vextab
@@ -116,7 +116,8 @@ case 6:
         notes: $$[$0].notes,
         text: $$[$0].text,
         _l: _$[$0-2].first_line,
-        _c: _$[$0-2].first_column
+        _c0: _$[$0-2].first_column,
+        _c1: _$[$0-2].last_column
       }
     
 break;
@@ -125,7 +126,8 @@ case 7:
         element: $$[$0-1],
         options: $$[$0],
         _l: _$[$0-1].first_line,
-        _c: _$[$0-1].first_column
+        _c0: _$[$0-1].first_column,
+        _c1: _$[$0-1].last_column
       }
     
 break;
@@ -135,7 +137,8 @@ case 8:
         element: "options",
         params: $$[$0],
         _l: _$[$0-1].first_line,
-        _c: _$[$0-1].first_column
+        _c0: _$[$0-1].first_column,
+        _c1: _$[$0-1].last_column
       }
     
 break;
@@ -161,7 +164,8 @@ case 19:
         key: $$[$0-2],
         value: $$[$0],
         _l: _$[$0-2].first_line,
-        _c: _$[$0-2].first_column
+        _c0: _$[$0-2].first_column,
+        _c1: _$[$0-2].last_column
       }]
     
 break;
@@ -170,15 +174,29 @@ case 20:
         key: $$[$0-2],
         value: $$[$0],
         _l: _$[$0-2].first_line,
-        _c: _$[$0-2].first_column
-        }])
+        _c0: _$[$0-2].first_column,
+        _c1: _$[$0-2].last_column
+        }]
+      )
     
 break;
 case 21:
- this.$ = [{text: $$[$0], _l: _$[$0].first_line, _c: _$[$0].first_column}] 
+ this.$ = [{
+      text: $$[$0],
+      _l: _$[$0].first_line,
+      _c0: _$[$0].first_column,
+      _c1: _$[$0].last_column
+      }] 
+    
 break;
 case 22:
- this.$ = [].concat($$[$0-2], {text: $$[$0], _l: _$[$0].first_line, _c: _$[$0].first_column}) 
+ this.$ = [].concat($$[$0-2], {
+      text: $$[$0],
+      _l: _$[$0].first_line,
+      _c0: _$[$0].first_column,
+      _c1: _$[$0].last_column
+      })
+    
 break;
 case 24:
  this.$ = [].concat($$[$0-1], $$[$0])  
@@ -188,7 +206,8 @@ case 28:
         command: "bar",
         type: $$[$0],
         _l: _$[$0].first_line,
-        _c: _$[$0].first_column
+        _c0: _$[$0].first_column,
+        _c1: _$[$0].last_column
         }]
     
 break;
@@ -196,7 +215,8 @@ case 29:
  this.$ = [{
         command: "open_beam",
         _l: _$[$0].first_line,
-        _c: _$[$0].first_column
+        _c0: _$[$0].first_column,
+        _c1: _$[$0].last_column
       }]
     
 break;
@@ -204,7 +224,8 @@ case 30:
  this.$ = [{
         command: "close_beam",
         _l: _$[$0].first_line,
-        _c: _$[$0].first_column
+        _c0: _$[$0].first_column,
+        _c1: _$[$0].last_column
       }]
     
 break;
@@ -213,7 +234,8 @@ case 31:
         command: "tuplet",
         params: $$[$0],
         _l: _$[$0].first_line,
-        _c: _$[$0].first_column
+        _c0: _$[$0].first_column,
+        _c1: _$[$0].last_column
       }]
     
 break;
@@ -222,7 +244,8 @@ case 32:
         command: "annotations",
         params: $$[$0],
         _l: _$[$0].first_line,
-        _c: _$[$0].first_column
+        _c0: _$[$0].first_column,
+        _c1: _$[$0].last_column
       }]
     
 break;
@@ -231,7 +254,8 @@ case 33:
         command: "command",
         params: $$[$0],
         _l: _$[$0].first_line,
-        _c: _$[$0].first_column
+        _c0: _$[$0].first_column,
+        _c1: _$[$0].last_column
       }]
     
 break;
@@ -239,7 +263,10 @@ case 34:
 
     this.$ = [{
         command: "rest",
-        params: $$[$0]
+        params: $$[$0],
+        _l: _$[$0].first_line,
+        _c0: _$[$0].first_column,
+        _c1: _$[$0].last_column
       }]
     
 break;
@@ -272,24 +299,54 @@ case 43: case 84:
  this.$ = [].concat($$[$0-2], $$[$0]) 
 break;
 case 44:
- this.$ = [{chord: $$[$0-2], decorator: $$[$0]}] 
+ this.$ = [{
+      chord: $$[$0-2],
+      decorator: $$[$0],
+      _l: _$[$0-3].first_line,
+      _c0: _$[$0-3].first_column,
+      _c1: _$[$0-3].last_column
+      }]
+    
 break;
 case 45:
- this.$ = [{chord: $$[$0-2], articulation: $$[$0-4], decorator: $$[$0]}] 
+ this.$ = [{
+      chord: $$[$0-2],
+      articulation: $$[$0-4],
+      decorator: $$[$0],
+      _l: _$[$0-4].first_line,
+      _c0: _$[$0-4].first_column,
+      _c1: _$[$0-4].last_column
+      }] 
+    
 break;
 case 46:
  this.$ = [{
         fret: $$[$0],
         _l: _$[$0].first_line,
-        _c: _$[$0].first_column}]
+        _c0: _$[$0].first_column,
+        _c1: _$[$0].last_column
+        }]
     
 break;
 case 47:
- this.$ = [{abc: $$[$0], _l: _$[$0].first_line, _c: _$[$0].first_column}]
+ this.$ = [{
+      abc: $$[$0],
+      _l: _$[$0].first_line,
+      _c0: _$[$0].first_column,
+      _c1: _$[$0].last_column
+      }]
+    
 break;
 case 48:
- this.$ = [{abc: $$[$0-3], octave: $$[$0-2],
-             fret: $$[$0], _l: _$[$0-3].first_line, _c: _$[$0-3].first_column}]
+ this.$ = [{
+      abc: $$[$0-3],
+      octave: $$[$0-2],
+      fret: $$[$0],
+      _l: _$[$0-3].first_line,
+      _c0: _$[$0-3].first_column,
+      _c1: _$[$0-3].last_column
+      }]
+    
 break;
 case 49:
  this.$ = [_.extend($$[$0], {articulation: $$[$0-1]})] 
@@ -304,27 +361,77 @@ case 50:
 break;
 case 51:
  this.$ = {
-      time: $$[$0-3], dot: $$[$0-2], fret: $$[$0],
-      _l: _$[$0-4].first_line, _c: _$[$0-4].first_column}
+      time: $$[$0-3],
+      dot: $$[$0-2],
+      fret: $$[$0],
+      _l: _$[$0-4].first_line,
+      _c0: _$[$0-4].first_column,
+      _c1: _$[$0-4].last_column
+      }
+    
 break;
 case 52:
- this.$ = {fret: $$[$0], _l: _$[$0].first_line, _c: _$[$0].first_column} 
+ this.$ = {
+      fret: $$[$0],
+      _l: _$[$0].first_line,
+      _c0: _$[$0].first_column,
+      _c1: _$[$0].last_column
+      } 
+    
 break;
 case 53:
- this.$ = {time: $$[$0-3], dot: $$[$0-2], abc: $$[$0]}
+ this.$ = {
+      time: $$[$0-3], 
+      dot: $$[$0-2],
+      abc: $$[$0],
+      _l: _$[$0-4].first_line,
+      _c0: _$[$0-4].first_column,
+      _c1: _$[$0-4].last_column
+      }
+    
 break;
 case 54:
- this.$ = {time: $$[$0-6], dot: $$[$0-5], abc: $$[$0-3], octave: $$[$0-2], fret: $$[$0]}
+ this.$ = {
+      time: $$[$0-6],
+      dot: $$[$0-5],
+      abc: $$[$0-3],
+      octave: $$[$0-2],
+      fret: $$[$0],
+      _l: _$[$0-7].first_line,
+      _c0: _$[$0-7].first_column,
+      _c1: _$[$0-7].last_column
+      }
+    
 break;
 case 55:
- this.$ = {abc: $$[$0], _l: _$[$0].first_line, _c: _$[$0].first_column} 
+ this.$ = {
+      abc: $$[$0],
+      _l: _$[$0].first_line,
+      _c0: _$[$0].first_column,
+      _c1: _$[$0].last_column
+      } 
+    
 break;
 case 56:
- this.$ = {abc: $$[$0-3], octave: $$[$0-2],
-            fret: $$[$0], _l: _$[$0-3].first_line, _c: _$[$0-3].first_column} 
+ this.$ = {
+      abc: $$[$0-3],
+      octave: $$[$0-2],
+      fret: $$[$0],
+      _l: _$[$0-3].first_line,
+      _c0: _$[$0-3].first_column,
+      _c1: _$[$0-3].last_column
+      }
+    
 break;
 case 57:
- this.$ = {time: $$[$0-1], dot: $$[$0]} 
+ this.$ = {
+      time: $$[$0-1],
+      dot: $$[$0],
+      _l: _$[$0-2].first_line,
+      _c0: _$[$0-2].first_column,
+      _c1: _$[$0-2].last_column
+      }
+    
 break;
 case 58:
  this.$ = $$[$0-1] + $$[$0] 
@@ -372,10 +479,23 @@ case 78:
  this.$ = 'd' 
 break;
 case 80:
- this.$ = {tuplet: $$[$0-1]} 
+ this.$ = {
+      tuplet: $$[$0-1],
+      _l: _$[$0-2].first_line,
+      _c0: _$[$0-2].first_column,
+      _c1: _$[$0-2].last_column
+      }
+    
 break;
 case 81:
- this.$ = {tuplet: $$[$0-3], notes: $$[$0-1]} 
+ this.$ = {
+      tuplet: $$[$0-3],
+      notes: $$[$0-1],
+      _l: _$[$0-4].first_line,
+      _c0: _$[$0-4].first_column,
+      _c1: _$[$0-4].last_column
+      } 
+    
 break;
 case 82: case 85:
  this.$ = $$[$0-1] 
@@ -390,7 +510,15 @@ case 88:
  this.$ = {position: $$[$0-1] * -1} 
 break;
 case 89:
- this.$ = {key: $$[$0-2], accidental: $$[$0-1], accidental_type: $$[$0]} 
+ this.$ = {
+      key: $$[$0-2],
+      accidental: $$[$0-1],
+      accidental_type: $$[$0],
+      _l: _$[$0-2].first_line,
+      _c0: _$[$0-2].first_column,
+      _c1: _$[$0-2].last_column
+      }
+    
 break;
 case 90:
  this.$ = "#" 
@@ -53357,6 +53485,10 @@ Artist = (function() {
           if (annotation) {
             tab_note.addModifier(this.makeAnnotation(annotations[i]), 0);
           }
+          if (tab_note.annotations == null) {
+            tab_note.annotations = [];
+          }
+          tab_note.annotations.push(annotations[i]);
         }
       }
     } else {
