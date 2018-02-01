@@ -632,6 +632,8 @@ class Artist
         else
           annotation = @makeAnnotation(annotations[i])
           tab_note.addModifier(@makeAnnotation(annotations[i]), 0) if annotation
+          tab_note.annotations ?= []
+          tab_note.annotations.push(annotations[i])
     else
       for note, i in stave_notes[stave_notes.length - annotations.length..]
         unless getScoreArticulationParts(annotations[i])
