@@ -624,8 +624,8 @@ class Artist
     if stave.tab
       for tab_note, i in tab_notes[tab_notes.length - annotations.length..]
         # FIXME HACK!
-        tab_note.annotations ?= []
-        tab_note.annotations.push(annotations[i])
+        tab_note.hackedAnnotations ?= []
+        tab_note.hackedAnnotations.push(annotations[i])
         if getScoreArticulationParts(annotations[i])
           score_articulation = @makeScoreArticulation(annotations[i])
           tab_note.addModifier(score_articulation, 0)
@@ -638,8 +638,8 @@ class Artist
     else
       # FIXME HACK!
       for note, i in stave_notes[stave_notes.length - annotations.length..]
-        note.annotations ?= []
-        note.annotations.push(annotations[i])
+        note.hackedAnnotations ?= []
+        note.hackedAnnotations.push(annotations[i])
         unless getScoreArticulationParts(annotations[i])
           annotation = @makeAnnotation(annotations[i])
           note.addAnnotation(0, @makeAnnotation(annotations[i])) if annotation
