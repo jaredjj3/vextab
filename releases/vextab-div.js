@@ -1,5 +1,5 @@
 /**
- * VexTab 2.0.21 built on 2018-01-31.
+ * VexTab 2.0.22 built on 2018-01-31.
  * Copyright (c) 2010 Mohit Muthanna Cheppudira <mohit@muthanna.com>
  *
  * http://www.vexflow.com  http://github.com/0xfe/vextab
@@ -53474,10 +53474,10 @@ Artist = (function() {
       ref = tab_notes.slice(tab_notes.length - annotations.length);
       for (i = j = 0, len = ref.length; j < len; i = ++j) {
         tab_note = ref[i];
-        if (tab_note.annotations == null) {
-          tab_note.annotations = [];
+        if (tab_note.hackedAnnotations == null) {
+          tab_note.hackedAnnotations = [];
         }
-        tab_note.annotations.push(annotations[i]);
+        tab_note.hackedAnnotations.push(annotations[i]);
         if (getScoreArticulationParts(annotations[i])) {
           score_articulation = this.makeScoreArticulation(annotations[i]);
           tab_note.addModifier(score_articulation, 0);
@@ -53495,10 +53495,10 @@ Artist = (function() {
       ref1 = stave_notes.slice(stave_notes.length - annotations.length);
       for (i = l = 0, len1 = ref1.length; l < len1; i = ++l) {
         note = ref1[i];
-        if (note.annotations == null) {
-          note.annotations = [];
+        if (note.hackedAnnotations == null) {
+          note.hackedAnnotations = [];
         }
-        note.annotations.push(annotations[i]);
+        note.hackedAnnotations.push(annotations[i]);
         if (!getScoreArticulationParts(annotations[i])) {
           annotation = this.makeAnnotation(annotations[i]);
           if (annotation) {
